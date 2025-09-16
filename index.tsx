@@ -106,27 +106,27 @@ const PROMPT_SETS = {
     { color: '#d9b2ff', text: 'Staccato Rhythms' },
     { color: '#d8ff3e', text: '808s' },
   ],
-  'Konpa': [
-    { color: '#d9b2ff', text: 'Haitian Dance Groove' },
-    { color: '#ff6600', text: 'Steady Haitian Basslines' },
-    { color: '#d8ff3e', text: 'Konpa Rhythm Guitar' },
-    { color: '#2af6de', text: 'Layered Haitian Percussion' },
-    { color: '#5200ff', text: 'Call & Response Haitian Vocals' },
-    { color: '#9900ff', text: 'Haitian Brass Section' },
-    { color: '#ff25f6', text: 'Romantic Haitian Lyrics' },
-    { color: '#ffdd28', text: 'Clave & Caribbean Rhythms' },
-    { color: '#2af6de', text: 'Haitian Drums' },
-    { color: '#9900ff', text: 'Accordion / Synth Lines (Konpa)' },
-    { color: '#5200ff', text: 'Electric Piano Chords' },
-    { color: '#ff25f6', text: 'Groove-Locked Drum Patterns' },
-    { color: '#3dffab', text: 'Flowing Horn Melodies' },
-    { color: '#3dffab', text: 'Gentle String Pads' },
-    { color: '#d9b2ff', text: 'Haitian Electric Guitar' },
-    { color: '#d8ff3e', text: 'Haitian Harmonies' },
+  'Haitian Kompa': [
+    { color: '#d9b2ff', text: 'Haitian Groove' },
+    { color: '#ff6600', text: 'Haitian Folklore' },
+    { color: '#d8ff3e', text: 'Rara' },
+    { color: '#2af6de', text: 'Mizik rasin' },
+    { color: '#5200ff', text: 'Zouk Brass' },
+    { color: '#9900ff', text: 'Zouk Trumpets' },
+    { color: '#ff25f6', text: 'Kompa Rhythm Guitar' },
+    { color: '#ffdd28', text: 'Cowbells' },
+    { color: '#2af6de', text: 'Haitian Percussion' },
+    { color: '#9900ff', text: 'Zouk Synth'},
+    { color: '#5200ff', text: 'Zouk Electric Piano' },
+    { color: '#ff25f6', text: 'Twoubadou' },
+    { color: '#3dffab', text: 'Meringue' },
+    { color: '#3dffab', text: 'Kompa String Pads' },
+    { color: '#d9b2ff', text: 'Zouk Electric Guitar' },
+    { color: '#d8ff3e', text: 'Haitian Basslines' },
   ],
 };
 
-const DEFAULT_PROMPT_SET_KEY = 'Music Genres';
-
+// const DEFAULT_PROMPT_SET_KEY = 'Music Genres';
+const DEFAULT_PROMPT_SET_KEY = 'Haitian Kompa';
 
 main();
