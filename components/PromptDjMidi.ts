@@ -56,7 +56,40 @@ export class PromptDjMidi extends LitElement {
       left: 0;
       padding: 5px;
       display: flex;
+      flex-direction: column;
       gap: 5px;
+    }
+    .button-group {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+    .prompt-set-group {
+      position: relative;
+    }
+    .prompt-set-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      margin-top: 2px;
+      background: #000c;
+      border: 1.5px solid #fff;
+      border-radius: 4px;
+      padding: 5px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      z-index: 10;
+    }
+    .prompt-set-menu button {
+      background: transparent;
+      border: none;
+      text-align: left;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .prompt-set-menu button:hover {
+      background: #fff2;
     }
     button {
       font: inherit;
@@ -88,22 +121,58 @@ export class PromptDjMidi extends LitElement {
 
   private prompts: Map<string, Prompt>;
   private midiDispatcher: MidiDispatcher;
+  private promptSets: Record<string, { color: string; text: string }[]>;
 
   @property({ type: Boolean }) private showMidi = false;
   @property({ type: String }) public playbackState: PlaybackState = 'stopped';
   @state() public audioLevel = 0;
   @state() private midiInputIds: string[] = [];
   @state() private activeMidiInputId: string | null = null;
+  @state() private activePromptSetKey: string;
+  @state() private promptSetMenuOpen = false;
 
   @property({ type: Object })
   private filteredPrompts = new Set<string>();
 
   constructor(
-    initialPrompts: Map<string, Prompt>,
+    promptSets: Record<string, { color: string; text: string }[]>,
+    initialPromptSetKey: string
   ) {
     super();
-    this.prompts = initialPrompts;
+    this.promptSets = promptSets;
+    this.activePromptSetKey = initialPromptSetKey;
+    this.prompts = this.buildPrompts(this.promptSets[this.activePromptSetKey]);
     this.midiDispatcher = new MidiDispatcher();
+  }
+
+  private buildPrompts(
+    promptSet: { color: string; text: string }[]
+  ): Map<string, Prompt> {
+    // Pick 3 random prompts to start at weight = 1
+    const startOn = [...promptSet]
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 3);
+
+    const prompts = new Map<string, Prompt>();
+
+    for (let i = 0; i < promptSet.length; i++) {
+      const promptId = `prompt-${i}`;
+      const prompt = promptSet[i];
+      const { text, color } = prompt;
+      prompts.set(promptId, {
+        promptId,
+        text,
+        weight: startOn.includes(prompt) ? 1 : 0,
+        cc: i,
+        color,
+      });
+    }
+
+    return prompts;
+  }
+
+  public getPrompts(): Map<string, Prompt> {
+    return this.prompts;
   }
 
   private handlePromptChanged(e: CustomEvent<Prompt>) {
@@ -182,6 +251,39 @@ export class PromptDjMidi extends LitElement {
     this.midiDispatcher.activeMidiInputId = newMidiId;
   }
 
+  private togglePromptSetMenu() {
+    this.promptSetMenuOpen = !this.promptSetMenuOpen;
+  }
+
+  private selectPromptSet(key: string) {
+    if (key === this.activePromptSetKey) {
+      this.promptSetMenuOpen = false;
+      return;
+    }
+    this.activePromptSetKey = key;
+    this.prompts = this.buildPrompts(this.promptSets[this.activePromptSetKey]);
+    this.filteredPrompts = new Set<string>();
+    this.dispatchEvent(
+      new CustomEvent('prompts-changed', { detail: this.prompts })
+    );
+    this.promptSetMenuOpen = false;
+  }
+
+  private renderPromptSetMenu() {
+    return html`
+      <div class="prompt-set-menu">
+        ${Object.keys(this.promptSets).map(
+          (key) =>
+            html`<button
+              class=${this.activePromptSetKey === key ? 'active' : ''}
+              @click=${() => this.selectPromptSet(key)}>
+              ${key}
+            </button>`,
+        )}
+      </div>
+    `;
+  }
+
   private playPause() {
     this.dispatchEvent(new CustomEvent('play-pause'));
   }
@@ -196,27 +298,38 @@ export class PromptDjMidi extends LitElement {
     });
     return html`<div id="background" style=${bg}></div>
       <div id="buttons">
-        <button
-          @click=${this.toggleShowMidi}
-          class=${this.showMidi ? 'active' : ''}
-          >MIDI</button
-        >
-        <select
-          @change=${this.handleMidiInputChange}
-          .value=${this.activeMidiInputId || ''}
-          style=${this.showMidi ? '' : 'visibility: hidden'}>
-          ${this.midiInputIds.length > 0
-        ? this.midiInputIds.map(
-          (id) =>
-            html`<option value=${id}>
-                    ${this.midiDispatcher.getDeviceName(id)}
-                  </option>`,
-        )
-        : html`<option value="">No devices found</option>`}
-        </select>
+        <div class="button-group">
+          <button
+            @click=${this.toggleShowMidi}
+            class=${this.showMidi ? 'active' : ''}
+            >MIDI</button
+          >
+          <select
+            @change=${this.handleMidiInputChange}
+            .value=${this.activeMidiInputId || ''}
+            style=${this.showMidi ? '' : 'visibility: hidden'}>
+            ${this.midiInputIds.length > 0
+              ? this.midiInputIds.map(
+                  (id) =>
+                    html`<option value=${id}>
+                      ${this.midiDispatcher.getDeviceName(id)}
+                    </option>`,
+                )
+              : html`<option value="">No devices found</option>`}
+          </select>
+        </div>
+        <div class="button-group prompt-set-group">
+          <button
+            @click=${this.togglePromptSetMenu}
+            class=${this.promptSetMenuOpen ? 'active' : ''}
+            >DJ SET</button>
+          ${this.promptSetMenuOpen ? this.renderPromptSetMenu() : ''}
+        </div>
       </div>
       <div id="grid">${this.renderPrompts()}</div>
-      <play-pause-button .playbackState=${this.playbackState} @click=${this.playPause}></play-pause-button>`;
+      <play-pause-button .playbackState=${
+        this.playbackState
+      } @click=${this.playPause}></play-pause-button>`;
   }
 
   private renderPrompts() {
