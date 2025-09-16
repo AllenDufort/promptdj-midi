@@ -70,6 +70,24 @@ function main() {
 }
 
 const PROMPT_SETS = {
+  'Music Genres': [
+    { color: '#d9b2ff', text: 'Pop' },
+    { color: '#ff6600', text: 'Hip-Hop' },
+    { color: '#d8ff3e', text: 'R&B' },
+    { color: '#2af6de', text: 'Rock' },
+    { color: '#5200ff', text: 'Rap' },
+    { color: '#9900ff', text: 'Jazz' },
+    { color: '#ff25f6', text: 'K-Pop' },
+    { color: '#ffdd28', text: 'Latin' },
+    { color: '#2af6de', text: 'Reggae' },
+    { color: '#9900ff', text: 'Afrobeats' },
+    { color: '#5200ff', text: 'Electronic' },
+    { color: '#ff25f6', text: 'Country' },
+    { color: '#3dffab', text: 'Blues' },
+    { color: '#3dffab', text: 'Soul' },
+    { color: '#d9b2ff', text: 'Funk' },
+    { color: '#d8ff3e', text: 'Neo Soul' },
+  ],
   'R&B': [
     { color: '#d9b2ff', text: 'Smooth Vocals' },
     { color: '#ff6600', text: 'Melismatic Runs' },
@@ -88,27 +106,27 @@ const PROMPT_SETS = {
     { color: '#d9b2ff', text: 'Staccato Rhythms' },
     { color: '#d8ff3e', text: '808s' },
   ],
-  'Music Genres': [
-    { color: '#d9b2ff', text: 'Pop' },
-    { color: '#ff6600', text: 'Hip-Hop' },
-    { color: '#d8ff3e', text: 'R&B' },
-    { color: '#2af6de', text: 'Rock' },
-    { color: '#5200ff', text: 'Rap' },
-    { color: '#9900ff', text: 'Jazz' },
-    { color: '#ff25f6', text: 'K-Pop' },
-    { color: '#ffdd28', text: 'Latin' },
-    { color: '#2af6de', text: 'Reggae' },
-    { color: '#9900ff', text: 'Afrobeats' },
-    { color: '#5200ff', text: 'Electronic' },
-    { color: '#ff25f6', text: 'Country' },
-    { color: '#3dffab', text: 'Blues' },
-    { color: '#3dffab', text: 'Soul' },
-    { color: '#d9b2ff', text: 'Funk' },
-    { color: '#d8ff3e', text: 'Classical' },
+  'Konpa': [
+    { color: '#d9b2ff', text: 'Guitar Rhythms' },
+    { color: '#ff6600', text: 'Clave Patterns' },
+    { color: '#d8ff3e', text: 'Horn Sections' },
+    { color: '#2af6de', text: 'Syncopated Bass' },
+    { color: '#5200ff', text: 'Steady Kick Drum' },
+    { color: '#9900ff', text: 'Call & Response Vocals' },
+    { color: '#ff25f6', text: 'Layered Harmonies' },
+    { color: '#ffdd28', text: 'Bright Keys' },
+    { color: '#2af6de', text: 'Percussion Breaks' },
+    { color: '#9900ff', text: 'Smooth Melodies' },
+    { color: '#5200ff', text: 'Rhythmic Guitar Chops' },
+    { color: '#ff25f6', text: 'Brass Hits' },
+    { color: '#3dffab', text: 'Rolling Congas' },
+    { color: '#3dffab', text: 'Tambourine Accents' },
+    { color: '#d9b2ff', text: 'Dance Groove' },
+    { color: '#d8ff3e', text: 'Melodic Basslines' },
   ]
 };
 
-const DEFAULT_PROMPT_SET_KEY = 'R&B';
+const DEFAULT_PROMPT_SET_KEY = 'Music Genres';
 
 
 main();
