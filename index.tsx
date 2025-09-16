@@ -92,7 +92,7 @@ const PROMPT_SETS = {
     { color: '#d9b2ff', text: 'Smooth Vocals' },
     { color: '#ff6600', text: 'Melismatic Runs' },
     { color: '#d8ff3e', text: 'Groovy Basslines' },
-    { color: '#2af6de', text: 'Syncopated Rhythms' },
+    { color: '#2af6de', text: 'Neo Soul' },
     { color: '#5200ff', text: 'Call & Response' },
     { color: '#9900ff', text: 'Falsetto' },
     { color: '#ff25f6', text: 'Harmonies' },
